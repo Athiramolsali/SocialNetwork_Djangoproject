@@ -115,17 +115,7 @@ class FriendRequestActionAPIView(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class FriendsListAPIView(APIView):
-    permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        friends = User.objects.filter(
-            Q(sent_requests__to_user=request.user, sent_requests__is_accepted=True) |
-            Q(received_requests__from_user=request.user, received_requests__is_accepted=True)
-        ).distinct()
-        
-        serializer = UserSerializer(friends, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     
 
 
